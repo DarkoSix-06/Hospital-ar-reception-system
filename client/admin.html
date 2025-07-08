@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Central Medical Center</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: #2c3e50;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .medical-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(33, 150, 243, 0.1);
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(33, 150, 243, 0.1);
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo {
+      background: linear-gradient(135deg, #2196f3, #1976d2);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 20px;
+      box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+    }
+
+    .hospital-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hospital-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a365d;
+      margin-bottom: 2px;
+    }
+
+    .system-name {
+      font-size: 13px;
+      color: #64b5f6;
+      font-weight: 500;
+    }
+
+    .search-section {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .search-input {
+      padding: 10px 15px;
+      border: 2px solid rgba(33, 150, 243, 0.1);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      color: #1a365d;
+      font-size: 14px;
+      width: 150px;
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #2196f3;
+      box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2196f3, #1976d2);
+      color: white;
+      box-shadow: 0 2px 10px rgba(33, 150, 243, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(33, 150, 243, 0.4);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.9);
+      color: #1a365d;
+      border: 2px solid rgba(33, 150, 243, 0.1);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(33, 150, 243, 0.05);
+      border-color: #2196f3;
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #4caf50, #388e3c);
+      color: white;
+      box-shadow: 0 2px 10px rgba(76, 175, 80, 0.3);
+    }
+
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(76, 175, 80, 0.4);
+    }
+
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-avatar {
+      background: linear-gradient(135deg, #ff9800, #f57c00);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 14px;
+      box-shadow: 0 2px 10px rgba(255, 152, 0, 0.3);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .btn-success:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(86, 171, 47, 0.4);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ffa8a8 100%);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .btn-danger:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+    }
+
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: #2d3436;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 2px solid rgba(255,255,255,0.3);
+    }
+
+    .user-avatar:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 15px rgba(255, 234, 167, 0.4);
+    }
+
+    .main-content {
+      padding: 32px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+
+    .dashboard-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #2c3e50;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, hsla(216, 83%, 55%, 0.76) 0%, #764ba2 100%);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 35px rgba(0,0,0,0.12);
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #2c3e50;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: #7f8c8d;
+      font-weight: 500;
+    }
+
+    .patients-section {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+
+    .section-header {
+      padding: 24px;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #2c3e50;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    .patients-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .patients-table th {
+      background: #f8f9fa;
+      padding: 16px;
+      text-align: left;
+      font-weight: 600;
+      color: #495057;
+      border-bottom: 2px solid #e9ecef;
+    }
+
+    .patients-table td {
+      padding: 16px;
+      border-bottom: 1px solid #e9ecef;
+      vertical-align: middle;
+    }
+
+    .patients-table tr:hover {
+      background: #f8f9fa;
+    }
+
+    .patient-id {
+      font-family: 'Monaco', 'Consolas', monospace;
+      background: #f8f9fa;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #6c757d;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 6px;
+    }
+
+    .update-form {
+      background: white;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 4px 25px rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.05);
+      margin-top: 32px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .form-label {
+      font-weight: 600;
+      color: #2c3e50;
+      font-size: 14px;
+    }
+
+    .form-input {
+      padding: 12px 16px;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #2649e4;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .form-input:read-only {
+      background: #f8f9fa;
+      color: #6c757d;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .loading-spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #3553db;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .alert {
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 500;
+    }
+
+    .alert-success {
+      background: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+      background: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 64px 32px;
+      color: #6c757d;
+    }
+
+    .empty-state-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      opacity: 0.5;
+    }
+
+    .dark-mode {
+      background: #111;
+      color: #fff;
+    }
+
+    .dark-mode .main-content,
+    .dark-mode .patients-section,
+    .dark-mode .update-form,
+    .dark-mode .stat-card,
+    .dark-mode .patients-table th {
+      background: #222;
+      color: #fff;
+    }
+
+    .dark-mode .stat-card::before,
+    .dark-mode .patients-table th {
+      background: linear-gradient(90deg, #4a00e0 0%, #8e2de2 100%);
+    }
+
+    .dark-mode .form-input,
+    .dark-mode .form-input:read-only {
+      background: #333;
+      color: #fff;
+      border-color: #444;
+    }
+
+    .dark-mode .form-label,
+    .dark-mode .dashboard-title,
+    .dark-mode .section-title,
+    .dark-mode .stat-value,
+    .dark-mode .patients-table td {
+      color: #fff;
+    }
+
+    .dark-mode .patients-table tr:hover {
+      background: #333;
+    }
+
+    .dark-mode .patient-id {
+      background: #333;
+      color: #bbb;
+    }
+
+    .dark-mode .search-input {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+
+    .dark-mode-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    @media (max-width: 768px) {
+      .medical-header {
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px;
+      }
+
+      .search-section {
+        flex-direction: column;
+        width: 100%;
+        margin: 0;
+      }
+
+      .user-section {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .main-content {
+        padding: 16px;
+      }
+
+      .dashboard-header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .action-buttons {
+        flex-direction: column;
+      }
+
+      .form-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dark-mode-toggle" id="dark-mode-toggle">
+    <i class="fas fa-moon"></i>
+  </div>
+
+  <div class="medical-header">
+    <div class="logo-section">
+      <div class="logo">M+</div>
+      <div class="hospital-info">
+        <div class="hospital-name">Central Medical Center</div>
+        <div class="system-name">Patient Management System</div>
+      </div>
+    </div>
+    
+    <div class="search-section">
+      <input type="text" class="search-input" id="search-name" placeholder="Patient Name">
+      <input type="text" class="search-input" id="search-id" placeholder="Patient ID">
+      <button class="btn btn-primary" id="search-btn">
+        <i class="fas fa-search"></i> Search
+      </button>
+    </div>
+    
+    <div class="user-section">
+      <button class="btn btn-secondary" onclick="window.location.href='index.html'">
+        <i class="fas fa-arrow-left"></i> Back to AR
+      </button>
+      <button class="btn btn-success" id="refresh-btn">
+        <i class="fas fa-sync-alt"></i> Refresh
+      </button>
+      <div class="user-avatar" id="user-avatar">Dr</div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="dashboard-header">
+      <div class="dashboard-title">
+        <i class="fas fa-tachometer-alt"></i> Admin Dashboard
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="total-patients">0</div>
+        <div class="stat-label">Total Patients</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="active-patients">0</div>
+        <div class="stat-label">Active Cases</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="updated-today">0</div>
+        <div class="stat-label">Updated Today</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="critical-patients">0</div>
+        <div class="stat-label">Critical Cases</div>
+      </div>
+    </div>
+
+    <div class="patients-section">
+      <div class="section-header">
+        <div class="section-title">
+          <i class="fas fa-user-injured"></i> Patient Registry
+        </div>
+        <div class="section-actions">
+          <button class="btn btn-success btn-sm" onclick="exportData()">
+            <i class="fas fa-file-export"></i> Export
+          </button>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table class="patients-table">
+          <thead>
+            <tr>
+              <th>Patient Name</th>
+              <th>Patient ID</th>
+              <th>Medical Condition</th>
+              <th>Admission Reason</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="patient-table-body">
+            <!-- Dynamic content will be loaded here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="update-form">
+      <h3 style="margin-bottom: 24px; color: #2c3e50; font-size: 20px; font-weight: 600;">
+        <i class="fas fa-user-edit"></i> Update Patient Information
+      </h3>
+      
+      <div id="alert-container"></div>
+      
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Patient Name</label>
+          <input type="text" class="form-input" id="update-name" readonly>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Patient ID</label>
+          <input type="text" class="form-input" id="update-id" readonly>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Medical Condition</label>
+          <input type="text" class="form-input" id="update-illness" placeholder="Enter medical condition">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Admission Reason</label>
+          <input type="text" class="form-input" id="update-reason" placeholder="Enter admission reason">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn btn-secondary" onclick="clearForm()">
+          <i class="fas fa-trash"></i> Clear
+        </button>
+        <button class="btn btn-success" onclick="updatePatient()" id="update-btn">
+          <i class="fas fa-save"></i> Save Changes
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tableBody = document.getElementById("patient-table-body");
+    const alertContainer = document.getElementById("alert-container");
+    const darkModeToggle = document.getElementById("dark-mode-toggle");
+    let currentSelected = null;
+    let allPatients = [];
+
+    // Function to load patients from MongoDB via Flask API
+    async function loadPatients() {
+      try {
+        // Show loading state
+        tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 32px;"><div class="loading-spinner"></div></td></tr>';
+        
+        // Fetch data from Flask API
+        const res = await fetch("http://127.0.0.1:5000/all");
+        const data = await res.json();
+        
+        allPatients = data.users;
+        renderPatients(allPatients);
+        updateStats(allPatients);
+        
+      } catch (err) {
+        console.error("Error loading patients:", err);
+        showAlert("Error loading patient data", "error");
+      }
+    }
+
+    // Function to render patients in the table
+    function renderPatients(patients) {
+      if (patients.length === 0) {
+        tableBody.innerHTML = `
+          <tr>
+            <td colspan="5" class="empty-state">
+              <i class="fas fa-user-slash empty-state-icon"></i>
+              <div>No patients found</div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      tableBody.innerHTML = "";
+      patients.forEach(patient => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 600; font-size: 14px;">
+                ${patient.name.split(' ').map(n => n[0]).join('')}
+              </div>
+              <div>
+                <div style="font-weight: 600; color: #2c3e50;">${patient.name}</div>
+                <div style="font-size: 12px; color: #6c757d;">Patient</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="patient-id">${patient.patientID}</div>
+          </td>
+          <td>${patient.illness}</td>
+          <td>${patient.reason}</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn btn-primary btn-sm btn-update" data-id="${patient.patientID}">
+                <i class="fas fa-edit"></i> Update
+              </button>
+            </div>
+          </td>
+        `;
+        tableBody.appendChild(row);
+      });
+
+      // Add event listeners to update buttons
+      document.querySelectorAll('.btn-update').forEach(button => {
+        button.addEventListener('click', (e) => {
+          const patientID = e.currentTarget.getAttribute('data-id');
+          const patient = allPatients.find(p => p.patientID === patientID);
+          if (patient) {
+            currentSelected = patient;
+            document.getElementById('update-name').value = patient.name;
+            document.getElementById('update-id').value = patient.patientID;
+            document.getElementById('update-illness').value = patient.illness;
+            document.getElementById('update-reason').value = patient.reason;
+            document.getElementById('update-btn').innerHTML = '<i class="fas fa-save"></i> Update Patient';
+          }
+        });
+      });
+    }
+
+    // Function to update statistics
+    function updateStats(patients) {
+      document.getElementById('total-patients').textContent = patients.length;
+      document.getElementById('active-patients').textContent = patients.filter(p => p.status === 'Active').length;
+      
+      // Calculate updated today (mock logic for demo)
+      const today = new Date().toISOString().split('T')[0];
+      const updatedToday = patients.filter(p => p.lastUpdated && p.lastUpdated.startsWith(today)).length;
+      document.getElementById('updated-today').textContent = updatedToday;
+      
+      document.getElementById('critical-patients').textContent = patients.filter(p => 
+        p.illness.toLowerCase().includes('cardiac') || 
+        p.illness.toLowerCase().includes('emergency') ||
+        p.illness.toLowerCase().includes('critical')
+      ).length;
+    }
+
+    // Function to update patient information
+    async function updatePatient() {
+      const name = document.getElementById("update-name").value;
+      const patientID = document.getElementById("update-id").value;
+      const illness = document.getElementById("update-illness").value;
+      const reason = document.getElementById("update-reason").value;
+      
+      if (!currentSelected) {
+        showAlert('Please select a patient first', 'error');
+        return;
+      }
+      
+      if (!illness || !reason) {
+        showAlert('Please fill all fields', 'error');
+        return;
+      }
+      
+      // Show loading state
+      const updateBtn = document.getElementById('update-btn');
+      updateBtn.innerHTML = '<div class="loading-spinner"></div>';
+      
+      try {
+        // Send update request to Flask API
+        const res = await fetch("http://127.0.0.1:5000/update", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, patientID, illness, reason })
+        });
+
+        const data = await res.json();
+        if (data.status === "updated") {
+          showAlert('Patient information updated successfully!');
+          
+          // Update local data
+          currentSelected.illness = illness;
+          currentSelected.reason = reason;
+          
+          // Update UI
+          renderPatients(allPatients);
+          updateStats(allPatients);
+        } else {
+          showAlert('Update failed', 'error');
+        }
+      } catch (err) {
+        console.error("Update error:", err);
+        showAlert('Error updating patient', 'error');
+      } finally {
+        updateBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+      }
+    }
+
+    // Function to show alerts
+    function showAlert(message, type = 'success') {
+      const alertDiv = document.createElement('div');
+      alertDiv.className = `alert alert-${type}`;
+      alertDiv.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+        ${message}
+      `;
+      
+      alertContainer.innerHTML = '';
+      alertContainer.appendChild(alertDiv);
+      
+      setTimeout(() => {
+        alertDiv.remove();
+      }, 5000);
+    }
+
+    // Function to clear form
+    function clearForm() {
+      document.getElementById('update-name').value = '';
+      document.getElementById('update-id').value = '';
+      document.getElementById('update-illness').value = '';
+      document.getElementById('update-reason').value = '';
+      currentSelected = null;
+    }
+
+    // Function to export data
+    function exportData() {
+      // Create CSV content
+      let csvContent = "data:text/csv;charset=utf-8,";
+      csvContent += "Patient ID,Name,Medical Condition,Admission Reason\n";
+      
+      allPatients.forEach(patient => {
+        csvContent += `${patient.patientID},${patient.name},${patient.illness},${patient.reason}\n`;
+      });
+      
+      // Create download link
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "patient_data.csv");
+      document.body.appendChild(link);
+      
+      // Trigger download
+      link.click();
+      document.body.removeChild(link);
+      
+      showAlert('Patient data exported successfully!');
+    }
+
+    // Toggle dark mode
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      const icon = darkModeToggle.querySelector('i');
+      if (document.body.classList.contains('dark-mode')) {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+      } else {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+      }
+      
+      // Save preference to localStorage
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    }
+
+    // Initialize the page
+    document.getElementById('refresh-btn').addEventListener('click', loadPatients);
+    document.getElementById('search-btn').addEventListener('click', () => {
+      const nameSearch = document.getElementById('search-name').value.toLowerCase();
+      const idSearch = document.getElementById('search-id').value.toLowerCase();
+      
+      const filtered = allPatients.filter(patient => 
+        patient.name.toLowerCase().includes(nameSearch) && 
+        patient.patientID.toLowerCase().includes(idSearch)
+      );
+      
+      renderPatients(filtered);
+    });
+
+    darkModeToggle.addEventListener('click', toggleDarkMode);
+
+    // Load patients on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      // Check for saved dark mode preference
+      if (localStorage.getItem('darkMode') === 'true') {
+        document.body.classList.add('dark-mode');
+        darkModeToggle.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+      }
+      
+      loadPatients();
+    });
+  </script>
+</body>
+</html>

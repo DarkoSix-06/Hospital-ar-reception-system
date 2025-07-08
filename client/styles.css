@@ -1,0 +1,126 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: #fff;
+}
+nav {
+  background: #00ff88;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+nav h1 {
+  margin: 0;
+  font-size: 20px;
+}
+nav button {
+  background: #111;
+  color: #fff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+nav button:hover {
+  background: #000;
+}
+.info-panel {
+  position: fixed;
+  top: 64px;
+  right: 10px;
+  width: 250px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  border-radius: 6px;
+  z-index: 5;
+}
+.fab {
+  position: fixed;
+  bottom: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: #00ff88;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 5;
+}
+#register-btn {
+  right: 20px;
+  bottom: 80px;
+}
+#dark-toggle {
+  right: 20px;
+  bottom: 20px;
+}
+#search-toggle {
+  right: 80px;
+  bottom: 20px;
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 5;
+}
+.modal input {
+  margin: 8px;
+  padding: 8px;
+  width: 60%;
+  border: none;
+  border-radius: 6px;
+}
+.modal button {
+  margin: 8px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.cards {
+  margin: 20px;
+}
+.card {
+  background: rgba(0, 255, 136, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+.card input {
+  width: 100%;
+  margin: 6px 0;
+  padding: 6px;
+  border-radius: 4px;
+  border: none;
+}
+.save-btn {
+  background: #111;
+  color: #fff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.save-btn:hover {
+  background: #000;
+}
+canvas,
+video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: 0;
+}

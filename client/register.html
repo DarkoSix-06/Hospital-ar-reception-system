@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR Medical System - Register New Patient</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e3f2fd 0%, #f8fbff 100%);
+      color: #1a365d;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated Background Elements */
+    .bubbles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(33, 150, 243, 0.1);
+      animation: float 15s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) translateX(0) rotate(0deg); }
+      33% { transform: translateY(-30px) translateX(20px) rotate(120deg); }
+      66% { transform: translateY(20px) translateX(-30px) rotate(240deg); }
+      100% { transform: translateY(0) translateX(0) rotate(360deg); }
+    }
+
+    /* Medical Header */
+    .medical-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(33, 150, 243, 0.1);
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 20px rgba(33, 150, 243, 0.1);
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo {
+      background: linear-gradient(135deg, #2196f3, #1976d2);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 20px;
+      box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+    }
+
+    .hospital-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hospital-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a365d;
+      margin-bottom: 2px;
+    }
+
+    .system-name {
+      font-size: 13px;
+      color: #64b5f6;
+      font-weight: 500;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .nav-btn {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.9);
+      color: #1a365d;
+      border: 2px solid rgba(33, 150, 243, 0.1);
+    }
+
+    .nav-btn:hover {
+      background: rgba(33, 150, 243, 0.05);
+      border-color: #2196f3;
+      transform: translateY(-2px);
+      box-shadow: 0 2px 10px rgba(33, 150, 243, 0.1);
+    }
+
+    .nav-btn i {
+      font-size: 16px;
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1200px;
+      margin: 100px auto 50px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .ar-header {
+      text-align: center;
+      margin-bottom: 40px;
+      max-width: 800px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(33, 150, 243, 0.1);
+      border: 1px solid rgba(33, 150, 243, 0.1);
+    }
+
+    .ar-title {
+      font-size: 2.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #1976d2, #2196f3);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 15px;
+    }
+
+    .ar-subtitle {
+      font-size: 1.4rem;
+      color: #64b5f6;
+      margin-bottom: 20px;
+    }
+
+    .form-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(33, 150, 243, 0.15);
+      border: 1px solid rgba(33, 150, 243, 0.2);
+      width: 100%;
+      max-width: 800px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(33, 150, 243, 0.05) 0%, transparent 70%);
+      z-index: -1;
+      animation: rotate 30s linear infinite;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    #register-form {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .form-group {
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 500;
+      color: #1a365d;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .form-group label i {
+      font-size: 1.2rem;
+      width: 30px;
+      text-align: center;
+      color: #1976d2;
+    }
+
+    .form-input, .form-textarea {
+      width: 100%;
+      padding: 16px 20px;
+      border: 2px solid rgba(100, 181, 246, 0.3);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.8);
+      color: #1a365d;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(33, 150, 243, 0.05);
+    }
+
+    .form-input:focus, .form-textarea:focus {
+      outline: none;
+      border-color: #2196f3;
+      box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.1);
+      background: rgba(255, 255, 255, 1);
+    }
+
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .input-highlight {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #2196f3, #64b5f6);
+      border-radius: 3px;
+      transition: width 0.5s ease;
+      z-index: 10;
+    }
+
+    .form-input:focus ~ .input-highlight,
+    .form-textarea:focus ~ .input-highlight {
+      width: 100%;
+    }
+
+    .file-upload-wrapper {
+      position: relative;
+    }
+
+    .form-file {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    .file-upload-label {
+      display: flex;
+      align-items: center;
+      padding: 16px 20px;
+      border: 2px dashed rgba(100, 181, 246, 0.3);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .file-upload-label:hover {
+      background: rgba(255, 255, 255, 1);
+      border-color: #2196f3;
+    }
+
+    .file-upload-label.has-file {
+      border-color: #4caf50;
+      background: rgba(76, 175, 80, 0.1);
+    }
+
+    .file-upload-label span:first-child {
+      font-size: 1.5rem;
+      margin-right: 15px;
+      transition: transform 0.3s ease;
+      color: #1976d2;
+    }
+
+    .file-upload-label:hover span:first-child {
+      transform: scale(1.2);
+    }
+
+    #file-text {
+      font-size: 1rem;
+      color: #64b5f6;
+    }
+
+    .submit-btn {
+      position: relative;
+      padding: 18px 30px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #2196f3, #1976d2);
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4);
+    }
+
+    .submit-btn:active {
+      transform: translateY(1px);
+    }
+
+    .loading-spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .submit-btn.loading .loading-spinner {
+      display: block;
+    }
+
+    .submit-btn.loading #btn-text {
+      display: none;
+    }
+
+    .message {
+      padding: 15px 20px;
+      border-radius: 12px;
+      margin-top: 20px;
+      text-align: center;
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+    }
+
+    .message.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .message.success {
+      background: rgba(76, 175, 80, 0.1);
+      border: 1px solid rgba(76, 175, 80, 0.3);
+      color: #388e3c;
+    }
+
+    .message.error {
+      background: rgba(244, 67, 54, 0.1);
+      border: 1px solid rgba(244, 67, 54, 0.3);
+      color: #d32f2f;
+    }
+
+    /* Form Animation */
+    .form-group {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.5s ease;
+    }
+
+    .form-group.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 30px 0;
+      color: #64b5f6;
+      font-size: 0.9rem;
+      margin-top: 40px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+        margin-top: 80px;
+      }
+      
+      .form-container {
+        padding: 25px;
+      }
+      
+      .ar-title {
+        font-size: 2rem;
+      }
+      
+      .ar-subtitle {
+        font-size: 1.1rem;
+      }
+      
+      .medical-header {
+        padding: 10px 15px;
+      }
+      
+      .logo {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
+      
+      .hospital-name {
+        font-size: 16px;
+      }
+      
+      .nav-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background Elements -->
+  <div class="bubbles">
+    <div class="bubble" style="top: 10%; left: 5%; width: 60px; height: 60px; animation-duration: 25s;"></div>
+    <div class="bubble" style="top: 30%; left: 80%; width: 40px; height: 40px; animation-duration: 20s;"></div>
+    <div class="bubble" style="top: 60%; left: 15%; width: 80px; height: 80px; animation-duration: 30s;"></div>
+    <div class="bubble" style="top: 85%; left: 65%; width: 50px; height: 50px; animation-duration: 22s;"></div>
+    <div class="bubble" style="top: 45%; left: 50%; width: 30px; height: 30px; animation-duration: 18s;"></div>
+  </div>
+
+  <!-- Medical Header -->
+  <div class="medical-header">
+    <div class="logo-section">
+      <div class="logo">M+</div>
+      <div class="hospital-info">
+        <div class="hospital-name">Central Medical Center</div>
+        <div class="system-name">Patient Registration System</div>
+      </div>
+    </div>
+    
+    <div class="nav-buttons">
+      <button class="nav-btn" onclick="window.location.href='index.html'">
+        <i class="fas fa-home"></i> Home
+      </button>
+      <button class="nav-btn" onclick="window.location.href='admin.html'">
+        <i class="fas fa-user-md"></i> Admin
+      </button>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- AR Header -->
+    <div class="ar-header">
+      <h1 class="ar-title">🏥 AR MEDICAL SYSTEM</h1>
+      <p class="ar-subtitle">Patient Registration Portal</p>
+    </div>
+
+    <!-- Form Container -->
+    <div class="form-container">
+      <form id="register-form">
+        <div class="form-group">
+          <label for="name"><i class="fas fa-user"></i> Patient Name</label>
+          <input type="text" id="name" name="name" class="form-input" placeholder="Enter full name" required />
+          <div class="input-highlight"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="patientID"><i class="fas fa-id-card"></i> Patient ID</label>
+          <input type="text" id="patientID" name="patientID" class="form-input" placeholder="Enter unique patient ID" required />
+          <div class="input-highlight"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="illness"><i class="fas fa-heartbeat"></i> Medical Condition</label>
+          <input type="text" id="illness" name="illness" class="form-input" placeholder="Primary illness or condition" required />
+          <div class="input-highlight"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="reason"><i class="fas fa-file-medical"></i> Reason for Visit</label>
+          <textarea id="reason" name="reason" class="form-textarea" placeholder="Describe the reason for this visit..." required></textarea>
+          <div class="input-highlight"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="image"><i class="fas fa-camera"></i> Patient Photo</label>
+          <div class="file-upload-wrapper">
+            <input type="file" id="image" name="image" class="form-file" accept="image/*" required />
+            <label for="image" class="file-upload-label" id="file-label">
+              <span><i class="fas fa-cloud-upload-alt"></i></span>
+              <span id="file-text">Click to upload patient photo</span>
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submit-btn">
+          <span class="loading-spinner"></span>
+          <span id="btn-text"><i class="fas fa-user-plus"></i> Register Patient</span>
+        </button>
+
+        <div class="message" id="message"></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p>© 2023 Central Medical Center | AR Patient Registration System v2.0</p>
+  </div>
+
+  <script>
+    // Generate bubbles dynamically
+    function createBubbles() {
+      const bubblesContainer = document.querySelector('.bubbles');
+      for (let i = 0; i < 15; i++) {
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        const size = Math.random() * 60 + 20;
+        const top = Math.random() * 100;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 20 + 15;
+        
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        bubble.style.top = `${top}%`;
+        bubble.style.left = `${left}%`;
+        bubble.style.animationDuration = `${duration}s`;
+        bubble.style.opacity = Math.random() * 0.3 + 0.1;
+        
+        bubblesContainer.appendChild(bubble);
+      }
+    }
+    
+    // File upload handling
+    const fileInput = document.getElementById('image');
+    const fileLabel = document.getElementById('file-label');
+    const fileText = document.getElementById('file-text');
+
+    fileInput.addEventListener('change', function(e) {
+      if (e.target.files.length > 0) {
+        const fileName = e.target.files[0].name;
+        fileText.textContent = `✅ ${fileName}`;
+        fileLabel.classList.add('has-file');
+      } else {
+        fileText.textContent = 'Click to upload patient photo';
+        fileLabel.classList.remove('has-file');
+      }
+    });
+
+    // Form submission
+    document.getElementById("register-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      const form = e.target;
+      const formData = new FormData(form);
+      const messageDiv = document.getElementById("message");
+      const submitBtn = document.getElementById("submit-btn");
+      const btnText = document.getElementById("btn-text");
+
+      // Show loading state
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+      
+      // Hide previous message
+      messageDiv.classList.remove('show');
+
+      // Simulate API call with timeout
+      setTimeout(async () => {
+        try {
+          // In a real application, you would have:
+          // const res = await fetch("http://127.0.0.1:5000/register", { method: "POST", body: formData });
+          // const data = await res.json();
+          
+          // For demo purposes, simulate a successful response
+          const data = {
+            success: true,
+            message: "Patient registered successfully! Face data captured."
+          };
+          
+          // Reset button state
+          submitBtn.classList.remove('loading');
+          submitBtn.disabled = false;
+          
+          // Show message
+          messageDiv.textContent = `✅ ${data.message}`;
+          messageDiv.className = 'message success show';
+          
+          // Reset form on success
+          setTimeout(() => {
+            form.reset();
+            fileLabel.classList.remove('has-file');
+            fileText.textContent = 'Click to upload patient photo';
+            messageDiv.classList.remove('show');
+            
+            // Redirect to main page after successful registration
+            setTimeout(() => {
+              window.location.href = 'index.html';
+            }, 1500);
+          }, 2000);
+          
+        } catch (err) {
+          // Reset button state
+          submitBtn.classList.remove('loading');
+          submitBtn.disabled = false;
+          
+          // Show error message
+          messageDiv.textContent = "❌ Registration failed! Please check your connection.";
+          messageDiv.className = 'message error show';
+        }
+      }, 2000);
+    });
+
+    // Add entrance animation to form elements
+    const formGroups = document.querySelectorAll('.form-group');
+    formGroups.forEach((group, index) => {
+      setTimeout(() => {
+        group.classList.add('visible');
+      }, 300 + (index * 150));
+    });
+    
+    // Initialize bubbles
+    createBubbles();
+  </script>
+</body>
+</html>
