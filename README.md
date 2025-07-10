@@ -10,6 +10,7 @@ A futuristic AI + AR powered web application that uses **real-time face recognit
 > 👩‍⚕️ Admin can edit or search for any patient manually
 
 ---
+![ChatGPT Image Jul 10, 2025, 03_05_18 PM](https://github.com/user-attachments/assets/1a877a9d-cfc2-4f7e-9fbe-551ed7552b97)
 
 ## ✨ Key Features
 
