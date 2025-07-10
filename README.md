@@ -3,8 +3,7 @@
 A futuristic AI + AR powered web application that uses **real-time face recognition** and **3D augmented reality overlays** to identify patients at a hospital reception and display their medical info (Name, ID, Reason, Last Seen, Disabilities). If the patient is not recognized, a registration form appears via AR. Includes a full **admin panel** for staff to **view, edit, and search** patients by name or ID
 ## 📸 Live Demo Flow
 ![ChatGPT Image Jul 7, 2025, 10_33_35 PM](https://github.com/user-attachments/assets/8d87b83e-9369-4763-8b0f-980030f83dac)
-![Uploading ChatGPT Image Jul 10, 2025, 03_21_18 PM.png…]()
-
+![ChatGPT Image Jul 10, 2025, 03_21_18 PM](https://github.com/user-attachments/assets/34752afa-88cd-4575-a67a-68e87c110d57)
 
 > ✅ Patient enters → 📷 Webcam detects face →  
 > 🧠 AR overlays show patient name, ID, reason, etc.  
